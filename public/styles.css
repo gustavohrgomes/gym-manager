@@ -60,3 +60,29 @@ header {
    width: 100%;
    transition: width 200ms ease-in-out;
 }
+
+/* === Card === */ 
+.card {
+   background-color: #fff;
+   width: 800px;
+   height: 500px;
+
+   margin: 50px auto;
+   
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+
+   box-shadow: 4px 3px 6px -2px rgba(0, 0, 0, 0.4);
+
+   animation: up 700ms ease-out;
+}
+
+@keyframes up {
+   from {
+      opacity: 0;
+      transform: translateY(15px);
+   }
+   to {
+      opacity: 1;
+   }
+}
