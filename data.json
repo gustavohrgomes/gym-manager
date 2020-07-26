@@ -1,0 +1,21 @@
+{
+  "instructors": [
+    {
+      "id": 1,
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6643122?s=460&v=4",
+      "name": "Mayk Brito",
+      "gender": "M",
+      "services": "Desenvolvimento WEB",
+      "created_at": 1595800572339
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://github.com/gustavohrgomes",
+      "name": "Gustavo Henrique Rodrigues Gomes",
+      "birth": 858816000000,
+      "gender": "M",
+      "services": "Desenvolvimento WEB",
+      "created_at": 1595800647077
+    }
+  ]
+}
