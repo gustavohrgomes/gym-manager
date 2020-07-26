@@ -15,6 +15,8 @@ Até o momento, foram utilizadas as seguintes tecnologias para o desenvolvimento
 - NodeJs
 - Express
 - Nunjucks
+- Nodemon
+- Browser-sync
 
 
 ---
