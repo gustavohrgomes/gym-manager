@@ -1,5 +1,5 @@
 module.exports = {
-   age: function(timeStamp) {
+   age: (timeStamp) => {
       const today = new Date()
       const birthDate = new Date(timeStamp)
 
