@@ -2,20 +2,21 @@
   "instructors": [
     {
       "id": 1,
-      "avatar_url": "https://avatars3.githubusercontent.com/u/6643122?s=460&v=4",
-      "name": "Mayk Brito",
-      "gender": "M",
-      "services": "Desenvolvimento WEB",
-      "created_at": 1595800572339
-    },
-    {
-      "id": 2,
-      "avatar_url": "https://github.com/gustavohrgomes",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/43626534?s=460&u=b97540f600246754ea73cd1f293d6b4f93325330&v=4",
       "name": "Gustavo Henrique Rodrigues Gomes",
       "birth": 858816000000,
       "gender": "M",
       "services": "Desenvolvimento WEB",
       "created_at": 1595800647077
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6643122?s=460&v=4",
+      "name": "Mayk Brito",
+      "birth": 468115200000,
+      "gender": "M",
+      "services": "Desenvolvimento WEB, Intrutor na Rocketseat",
+      "created_at": 1596414456240
     }
   ]
 }
