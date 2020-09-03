@@ -2,15 +2,21 @@
 
 {% block content %}
 
-  <form class="card" method="POST" action="/instructors">
-    <section class="avatar" style="background: url(https://source.unsplash.com/collection/6800490/600x600) no-repeat center center; background-size: cover"></section>
+  <form class="card" method="POST" action="/instructors?_method=PUT">
+    <section 
+      class="avatar" 
+      style="background: url(https://source.unsplash.com/collection/6800490/600x600) no-repeat center center; background-size: cover"
+    >
+    </section>
 
     <section class="details">
+
       <h3>Editar Instrutor</h3>
+
+      <input type="hidden" name="id" value="{{instructor.id}}">
       
       {% include "instructors/fields.njk" %}
 
-      <a class="button" href="#">Salvar</a>
     </section>
   </form>
 
