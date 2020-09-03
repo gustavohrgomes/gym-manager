@@ -68,4 +68,33 @@ exports.edit = (req, res) => {
    }
 
    return res.render('instructors/edit', { instructor })
-} 
+}
+
+exports.put = (req, res) => {
+   const { id } = req.body
+
+   let index = 0
+
+   const foundInsctructor = data.instructors.find((instructor, foundIndex) => {
+      if (id == instructor.id){
+         index = foundIndex
+         return true
+      }
+   })
+
+   if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
+
+   const instructor = {
+      ...foundInsctructor,
+      ...req.body,
+      birth: Date.parse(req.body.birth)
+   }
+
+   data.instructors[index] = instructor
+
+   fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
+      if (err) return res.send("write error!")
+
+      return res.redirect(`/instructors/${id}`)
+   })
+}
