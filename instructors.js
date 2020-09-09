@@ -2,115 +2,121 @@ const fs = require('fs')
 const data = require('./data.json')
 const { age, date } = require('./utils')
 
-exports.show = (req, res) => {
-   const { id } = req.params
-
-   const foundInsctructor = data.instructors.find(instructor => {
-      return instructor.id == id
-   })
-
-   if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
-
-   const instructor = {
-      ...foundInsctructor,
-      age: age(foundInsctructor.birth),
-      services: foundInsctructor.services.split(','),
-      created_at: new Intl.DateTimeFormat("pt-BR").format(foundInsctructor.created_at)
-   }
-
-   return res.render('instructors/show', { instructor })
+exports.index = (req, res) => {
+  return res.render('instructors/index', { instructors: data.instructors })
 }
 
-exports.post = (req, res) =>{
-   
-   const keys = Object.keys(req.body)
- 
-   for (value of keys) {
-     if (req.body[value] == "")
-       return res.send("Please, fill in all fields")
-   }
+exports.show = (req, res) => {
+  const { id } = req.params
 
-   let { avatar_url, name, birth, gender, services } = req.body
+  const foundInsctructor = data.instructors.find(instructor => {
+    return instructor.id == id
+  })
 
-   birth = Date.parse(birth)
-   const created_at = Date.now()
-   const id = Number(data.instructors.length + 1)
+  if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
 
-   data.instructors.push({
-      id,
-      avatar_url,
-      name,
-      birth,
-      gender,
-      services,
-      created_at
-   })
+  const instructor = {
+    ...foundInsctructor,
+    age: age(foundInsctructor.birth),
+    services: foundInsctructor.services.split(','),
+    created_at: new Intl.DateTimeFormat("pt-BR").format(foundInsctructor.created_at)
+  }
 
-   fs.writeFile( "data.json", JSON.stringify(data, null, 2), err => {
-      if (err) return res.send("Write file error")
-      
-      return res.redirect('/instructors')
-   })
+  return res.render('instructors/show', { instructor })
+}
+
+exports.post = (req, res) => {
+
+  const keys = Object.keys(req.body)
+
+  for (value of keys) {
+    if (req.body[value] == "")
+      return res.send("Please, fill in all fields")
+  }
+
+  let { avatar_url, name, birth, gender, services } = req.body
+
+  birth = Date.parse(birth)
+  const created_at = Date.now()
+  const id = Number(data.instructors.length + 1)
+
+  data.instructors.push({
+    id,
+    avatar_url,
+    name,
+    birth,
+    gender,
+    services,
+    created_at
+  })
+
+  fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
+    if (err) return res.send("Write file error")
+
+    return res.redirect('/instructors')
+  })
 }
 
 exports.edit = (req, res) => {
-   const { id } = req.params
+  const { id } = req.params
 
-   const foundInsctructor = data.instructors.find(instructor => {
-      return instructor.id == id
-   })
+  const foundInsctructor = data.instructors.find(instructor => {
+    return instructor.id == id
+  })
 
-   if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
+  if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
 
-   const instructor = {
-      ...foundInsctructor,
-      birth: date(foundInsctructor.birth)
-   }
+  const instructor = {
+    ...foundInsctructor,
+    birth: date(foundInsctructor.birth)
+  }
 
-   return res.render('instructors/edit', { instructor })
+  return res.render('instructors/edit', { instructor })
 }
 
 exports.put = (req, res) => {
-   const { id } = req.body
+  const { id } = req.body
 
-   let index = 0
+  let index = 0
 
-   const foundInsctructor = data.instructors.find((instructor, foundIndex) => {
-      if (id == instructor.id){
-         index = foundIndex
-         return true
-      }
-   })
+  const foundInsctructor = data.instructors.find((instructor, foundIndex) => {
+    if (id == instructor.id) {
+      index = foundIndex
+      return true
+    }
+  })
 
-   if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
+  if (!foundInsctructor) return res.send("Instructor not found, sorry :(")
 
-   const instructor = {
-      ...foundInsctructor,
-      ...req.body,
-      birth: Date.parse(req.body.birth)
-   }
+  const instructor = {
+    ...foundInsctructor,
+    ...req.body,
+    id: Number(req.body.id),
+    birth: Date.parse(req.body.birth)
+  }
 
-   data.instructors[index] = instructor
+  data.instructors[index] = instructor
 
-   fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
-      if (err) return res.send("write error!")
+  fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
+    if (err) return res.send("write error!")
 
-      return res.redirect(`/instructors/${id}`)
-   })
+    return res.redirect(`/instructors/${id}`)
+  })
 }
 
 exports.delete = (req, res) => {
-   const { id } = req.body
+  const { id } = req.body
 
-   const filteredInstructors = data.instructors.filter(instructor => {
-      return instructor.id != id;
-   })
+  const filteredInstructors = data.instructors.filter(instructor => {
+    return instructor.id != id;
+  })
 
-   data.instructors = filteredInstructors;
+  data.instructors = filteredInstructors;
 
-   fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
-      if (err) return res.send("Write File error!")
+  fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
+    if (err) return res.send("Write File error!")
 
-      return res.redirect('/instructors')
-   })
+    return res.redirect('/instructors')
+  })
 }
+
