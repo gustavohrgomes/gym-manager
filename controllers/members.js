@@ -36,23 +36,25 @@ exports.post = (req, res) => {
       return res.send("Please, fill in all fields")
   }
 
-  let { avatar_url, name, birth, gender } = req.body
+  birth = Date.parse(req.body.birth)
 
-  birth = Date.parse(birth)
-  const id = Number(data.members.length + 1)
+  let id = 1  
+  const lastMember = data.members[data.members.length - 1]
+
+  if (lastMember) {
+    id = lastMember.id + 1
+  }
 
   data.members.push({
     id,
-    avatar_url,
-    name,
-    birth,
-    gender,
+    ...req.body,
+    birth
   })
 
   fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
     if (err) return res.send("Write file error")
 
-    return res.redirect('/members')
+    return res.redirect(`/members/${id}`)
   })
 }
 
