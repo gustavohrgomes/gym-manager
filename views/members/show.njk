@@ -9,13 +9,13 @@
             <h3>Detalhes</h3>
 
             <div class="item">
-               <div>Nome</div>
+               <div>Membro</div>
                <div>{{ member.name }}</div>
             </div>
 
             <div class="item">
-               <div>Idade</div>
-               <div>{{ member.age }}</div>
+               <div>Aniversário</div>
+               <div>{{ member.birth }}</div>
             </div>
 
             <div class="item">
@@ -24,16 +24,21 @@
             </div>
 
             <div class="item">
-               <div>Acompanhamento</div>
-               {% for service in member.services %}
-                  <span>{{ service }}</span>
-               {% endfor %}
+                <div>Tipo sanguíneo</div>
+                <div>{{ member.blood }}</div>
             </div>
 
             <div class="item">
-                <div>Desde</div>
-                <div>{{ member.created_at }}</div>
+                <div>Peso (Kg)</div>
+                <div>{{ member.weight }}</div>
             </div>
+
+            
+            <div class="item">
+                <div>Altura (cm)</div>
+                <div>{{ member.height }}</div>
+            </div>
+
 
             <a class="button" href="/members/{{member.id}}/edit">Editar</a>
         </section>
