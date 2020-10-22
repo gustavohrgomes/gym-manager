@@ -5,19 +5,31 @@
           type="url" 
           name="avatar_url"
           placeholder="http://"
-          value="{{ instructor.avatar_url }}"
+          value="{{ member.avatar_url }}"
         >
   </div>
 </div>
 
 <div class="item">
-  <div>Instrutor</div>
+  <div>Membro</div>
   <div>
       <input 
           type="text"
           name="name"
-          placeholder="Nome do instrutor"
-          value="{{ instructor.name }}"
+          placeholder="Nome do membro"
+          value="{{ member.name }}"
+        >
+  </div>
+</div>
+
+<div class="item">
+  <div>Email</div>
+  <div>
+      <input 
+          type="email"
+          name="email"
+          placeholder="email@email.com"
+          value="{{ member.email }}"
         >
   </div>
 </div>
@@ -28,7 +40,7 @@
       <input 
         type="date" 
         name="birth"
-        value="{{ instructor.birth }}"
+        value="{{ member.birth }}"
       >
   </div>
 </div>
@@ -41,7 +53,7 @@
           type="radio"
           name="gender"       
           value="M" 
-          {% if instructor.gender == 'M' %}
+          {% if member.gender == 'M' %}
             checked
           {% endif %}
         >
@@ -52,7 +64,7 @@
           type="radio" 
           name="gender" 
           value="F"
-          {% if instructor.gender == 'F' %}
+          {% if member.gender == 'F' %}
             checked
           {% endif %}
         >
@@ -62,13 +74,95 @@
 </div>
 
 <div class="item">
-  <div>Área de atuação</div>
+  <div>Tipo sanguíneo</div>
+  <div>
+      <select name="blood">
+        <option 
+          value="A+"
+          {% if member.blood == "A+"%}
+            selected
+          {% endif %}
+        >
+          A+
+        </option>
+        <option 
+          value="A-"
+          {% if member.blood == "A-"%}
+            selected
+          {% endif %}
+        >
+          A-
+        </option>
+        <option 
+          value="AB+"
+          {% if member.blood == "AB+"%}
+            selected
+          {% endif %}
+        >
+          AB+
+        </option>
+        <option 
+          value="AB-"
+          {% if member.blood == "AB-"%}
+            selected
+          {% endif %}
+        >
+          AB-
+        </option>
+        <option 
+          value="B+"
+          {% if member.blood == "B+"%}
+            selected
+          {% endif %}
+        >
+          B+
+        </option>
+        <option 
+          value="B-"
+          {% if member.blood == "B-"%}
+            selected
+          {% endif %}
+        >
+          B-
+        </option>
+        <option 
+          value="O+"
+          {% if member.blood == "O+"%}
+            selected
+          {% endif %}
+        >
+          O+
+        </option>
+        <option 
+          value="O-"
+          {% if member.blood == "O-"%}
+            selected
+          {% endif %}
+        >
+          O-
+        </option>
+      </select>
+  </div>
+</div>
+
+<div class="item">
+  <div>Peso (Kg)</div>
   <div>
       <input 
-        type="text"
-        name="services"
-        placeholder="Separe os serviçoes prestados por vírgula"
-        value="{{ instructor.services }}"
+        type="number" 
+        name="weight"
+        value="{{ member.birth }}"
+      >
+  </div>
+</div>
+
+<div class="item">
+  <div>Altura (cm)</div>
+  <div>
+      <input 
+        type="number" 
+        name="height"
+        value="{{ member.birth }}"
       >
   </div>
 </div>

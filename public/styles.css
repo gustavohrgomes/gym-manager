@@ -143,8 +143,7 @@ input {
    height: 32px;
    padding: 8px;
    outline: none;
-   border: 1px solid #777777;
-   border-radius: 8px;
+   border: none;
 
    color: #555;
    font-size: 18px;
@@ -238,7 +237,8 @@ tbody tr td:first-child span {
    border: 2px solid white;
 }
 
-tbody tr td:last-child a {
+tbody tr td:last-child a,
+.table-container > a {
    color: #fff;
    font-size: 14px;
    background-color: var(--primary-color);
@@ -247,6 +247,12 @@ tbody tr td:last-child a {
    border-radius: 4px
 } 
 
-tbody tr td:last-child a:hover {
+.table-container > a {
+   margin-bottom: 16px;
+   display: inline-block;
+}
+
+tbody tr td:last-child a:hover,
+.table-container > a:hover  {
    opacity: .8;
 }
