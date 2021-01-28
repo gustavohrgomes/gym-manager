@@ -17,7 +17,7 @@ module.exports = {
     `;
 
     db.query(selectFromInstructors, function (err, results) {
-      if (err) return res.send("Database Error!");
+      if (err) throw `Database Error! ${err}`;
 
       callback(results.rows);
     });
@@ -45,7 +45,7 @@ module.exports = {
     ];
 
     db.query(insertIntoInstructors, values, function (err, results) {
-      if (err) return res.send("Database Error!");
+      if (err) throw `Database Error! ${err}`;
 
       callback(results.rows[0]);
     });
@@ -67,7 +67,7 @@ module.exports = {
     `;
 
     db.query(selectFromInstructors, [id], function (err, results) {
-      if (err) return res.send("Database Error!");
+      if (err) throw `Database Error! ${err}`;
 
       callback(results.rows[0]);
     });
@@ -95,9 +95,18 @@ module.exports = {
     ];
 
     db.query(update, values, function (err, results) {
-      if (err) return res.send("Database Error!");
+      if (err) throw `Database Error! ${err}`;
 
       callback(results.rows[0]);
+    });
+  },
+  delete(id, callback) {
+    const deleteInstructor = `DELETE FROM instructors WHERE id = $1`;
+
+    db.query(deleteInstructor, [id], function (err, results) {
+      if (err) throw `Database Error! ${err}`;
+
+      return callback();
     });
   },
 };
