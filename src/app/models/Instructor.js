@@ -14,6 +14,7 @@ module.exports = {
         created_at
       FROM 
         instructors
+      ORDER BY name 
     `;
 
     db.query(selectFromInstructors, function (err, results) {
