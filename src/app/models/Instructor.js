@@ -5,16 +5,19 @@ module.exports = {
   getAll(callback) {
     const selectFromInstructors = `
       SELECT 
-        id,
-        name,
-        avatar_url,
-        gender,
-        services,
-        birth,
-        created_at
+        instructors.id,
+        instructors.name,
+        instructors.avatar_url,
+        instructors.gender,
+        instructors.services,
+        instructors.birth,
+        instructors.created_at,
+        COUNT(members) as total_students
       FROM 
         instructors
-      ORDER BY name 
+      LEFT JOIN members ON members.instructor_id = instructors.id
+      GROUP BY instructors.id
+      ORDER BY total_students DESC 
     `;
 
     db.query(selectFromInstructors, function (err, results) {

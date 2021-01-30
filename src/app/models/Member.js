@@ -34,8 +34,9 @@ module.exports = {
         gender,
         blood,
         weight,
-        height
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        height,
+        instructor_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING id
     `;
 
@@ -48,6 +49,7 @@ module.exports = {
       member.blood,
       member.weight,
       member.height,
+      member.instructor,
     ];
 
     db.query(insertIntoMember, values, function (err, results) {
@@ -59,19 +61,22 @@ module.exports = {
   find(id, callback) {
     const selectFromMember = `
       SELECT
-        id,
-        name,
-        avatar_url,
-        email,
-        birth,
-        gender,
-        blood,
-        weight,
-        height
+        members.id,
+        members.name,
+        members.avatar_url,
+        members.email,
+        members.birth,
+        members.gender,
+        members.blood,
+        members.weight,
+        members.height,
+        instructors.name AS instructor_name
       FROM 
         members
+      LEFT JOIN instructors
+      ON members.instructor_id = instructors.id
       WHERE 
-        id = $1
+        members.id = $1
     `;
 
     db.query(selectFromMember, [id], function (err, results) {
@@ -91,9 +96,10 @@ module.exports = {
         gender = ($5),
         blood = ($6),
         weight = ($7),
-        height = ($8)
+        height = ($8),
+        instructor_id = ($9)
       WHERE 
-        id = $9
+        id = $10
     `;
 
     const values = [
@@ -105,6 +111,7 @@ module.exports = {
       member.blood,
       member.weight,
       member.height,
+      member.instructor,
       member.id,
     ];
 
@@ -121,6 +128,15 @@ module.exports = {
       if (err) throw `Database Error! ${err}`;
 
       return callback();
+    });
+  },
+  instructorsSelectOptions(callback) {
+    const instructorOptions = "SELECT id, name FROM instructors";
+
+    db.query(instructorOptions, function (err, results) {
+      if (err) throw `Database Error! ${err}`;
+
+      return callback(results.rows);
     });
   },
 };
