@@ -113,4 +113,29 @@ module.exports = {
       return callback();
     });
   },
+  filterInstructors(filter, callback) {
+    const filterInstructors = `
+      SELECT 
+        instructors.id,
+        instructors.name,
+        instructors.avatar_url,
+        instructors.gender,
+        instructors.services,
+        instructors.birth,
+        instructors.created_at,
+        COUNT(members) as total_students
+      FROM 
+        instructors
+      LEFT JOIN members ON members.instructor_id = instructors.id
+      WHERE instructors.name ILIKE '%${filter}%' 
+      GROUP BY instructors.id
+      ORDER BY total_students DESC 
+    `;
+
+    db.query(filterInstructors, function (err, results) {
+      if (err) throw `Database Error! ${err}`;
+
+      callback(results.rows);
+    });
+  },
 };
