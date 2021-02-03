@@ -127,12 +127,50 @@ module.exports = {
       FROM 
         instructors
       LEFT JOIN members ON members.instructor_id = instructors.id
-      WHERE instructors.name ILIKE '%${filter}%' 
+      WHERE instructors.name ILIKE '%${filter}%' OR instructors.services ILIKE '%${filter}%'
       GROUP BY instructors.id
       ORDER BY total_students DESC 
     `;
 
     db.query(filterInstructors, function (err, results) {
+      if (err) throw `Database Error! ${err}`;
+
+      callback(results.rows);
+    });
+  },
+  pagination(params) {
+    const { filter, limit, offset, callback } = params;
+
+    let query = ` 
+      SELECT 
+        instructors.id,
+        instructors.name,
+        instructors.avatar_url,
+        instructors.gender,
+        instructors.services,
+        instructors.birth,
+        instructors.created_at,
+        COUNT(members) as total_students
+      FROM 
+        instructors
+      LEFT JOIN members ON instructors.id = members.instructor_id
+    `;
+
+    if (filter) {
+      query = `${query}
+        WHERE instructors.name ILIKE '%${filter}%' 
+        OR instructors.services ILIKE '%${filter}%'
+      `;
+    }
+
+    query = `${query}
+      GROUP BY instructors.id
+      ORDER BY total_students DESC
+      LIMIT $1 OFFSET $2
+    `;
+
+    db.query(query, [limit, offset], function (err, results) {
+      console.log(query);
       if (err) throw `Database Error! ${err}`;
 
       callback(results.rows);
