@@ -182,7 +182,6 @@ module.exports = {
       if (err) throw `Database Error! ${err}`;
 
       callback(results.rows);
-      console.log(results.rows);
     });
   },
 };

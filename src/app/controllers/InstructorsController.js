@@ -21,8 +21,6 @@ module.exports = {
           page,
         };
 
-        console.log(instructors);
-
         return res.render("instructors/index", {
           instructors,
           pagination,

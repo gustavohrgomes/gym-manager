@@ -139,4 +139,48 @@ module.exports = {
       return callback(results.rows);
     });
   },
+  paginate(params) {
+    const { filter, limit, offset, callback } = params;
+
+    let query = "";
+    filterQuery = "";
+    totalQuery = `(SELECT count(*) FROM members) AS TOTAL`;
+
+    if (filter) {
+      filterQuery = `${query}
+        WHERE members.name ILIKE '%${filter}%' 
+        OR members.email ILIKE '%${filter}%'
+      `;
+
+      totalQuery = `(
+        SELECT count(*) FROM members
+        ${filterQuery}
+      ) AS Total`;
+    }
+
+    query = `
+      SELECT
+        members.id,
+        members.name,
+        members.avatar_url,
+        members.email,
+        members.birth,
+        members.gender,
+        members.blood,
+        members.weight,
+        members.height,
+        ${totalQuery}
+      FROM
+        members
+      ${filterQuery}
+      LIMIT $1 OFFSET $2
+    `;
+
+    db.query(query, [limit, offset], function (err, results) {
+      console.log(query);
+      if (err) throw `Database Error! ${err}`;
+
+      callback(results.rows);
+    });
+  },
 };
