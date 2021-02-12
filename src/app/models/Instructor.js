@@ -138,11 +138,27 @@ module.exports = {
       callback(results.rows);
     });
   },
-  pagination(params) {
+  paginate(params) {
     const { filter, limit, offset, callback } = params;
 
-    let query = ` 
-      SELECT 
+    let query = "";
+    filterQuery = "";
+    totalQuery = `(SELECT count(*) FROM instructors) AS TOTAL`;
+
+    if (filter) {
+      filterQuery = `${query}
+        WHERE instructors.name ILIKE '%${filter}%' 
+        OR instructors.services ILIKE '%${filter}%'
+      `;
+
+      totalQuery = `(
+        SELECT count(*) FROM instructors
+        ${filterQuery}
+      ) AS Total`;
+    }
+
+    query = `
+      SELECT
         instructors.id,
         instructors.name,
         instructors.avatar_url,
@@ -150,20 +166,12 @@ module.exports = {
         instructors.services,
         instructors.birth,
         instructors.created_at,
+        ${totalQuery},
         COUNT(members) as total_students
-      FROM 
+      FROM
         instructors
       LEFT JOIN members ON instructors.id = members.instructor_id
-    `;
-
-    if (filter) {
-      query = `${query}
-        WHERE instructors.name ILIKE '%${filter}%' 
-        OR instructors.services ILIKE '%${filter}%'
-      `;
-    }
-
-    query = `${query}
+      ${filterQuery}
       GROUP BY instructors.id
       ORDER BY total_students DESC
       LIMIT $1 OFFSET $2
@@ -174,6 +182,7 @@ module.exports = {
       if (err) throw `Database Error! ${err}`;
 
       callback(results.rows);
+      console.log(results.rows);
     });
   },
 };
